@@ -9,8 +9,18 @@ app.get('/', (req, res)=> { //request and what the server will response
     res.send('Hello World!'); // sending back the response with text Hello World
   });
 
-//listen to request
+
+//give response of cat.json in /catinfo
+app.get('/catinfo', (req, res) => {
+    const cat = {
+      name: 'Frank',
+      birthdate: '2010-12-25',
+      weight: 5,
+    };
+    res.json(cat);
+  });
+
+  //listen to request
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
-/* nodemon run the app on local host with the updated changes */
