@@ -103,5 +103,9 @@ dist
 # OS
 .DS_STORE
 
+# week2
+week2/.gitignore
+week2/README.md
+
 # TernJS port file
 .tern-port
