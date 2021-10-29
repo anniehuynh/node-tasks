@@ -1,0 +1,26 @@
+{
+  "name": "node",
+  "version": "1.0.0",
+  "description": "testing",
+  "main": "script.js",
+  "scripts": {
+    "start": "nodemon script"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anniehuynh/bwt-week1.git"
+  },
+  "keywords": [
+    "bwt",
+    "week1"
+  ],
+  "author": "Annie",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anniehuynh/bwt-week1/issues"
+  },
+  "homepage": "https://github.com/anniehuynh/bwt-week1#readme",
+  "dependencies": {
+    "lodash": "^4.17.21" 
+  }
+}
