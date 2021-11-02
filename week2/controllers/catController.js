@@ -2,9 +2,12 @@
 // catController
 
 //calling object destructoring to import only cats array in catModel
-const { cats, getCat } = require('../models/catModel');
+const { getAllCats, getCat } = require('../models/catModel');
+const { get } = require('../routes/catRoute');
 
-const cat_list_get = (req,res) => {
+const cat_list_get = async (req,res) => {
+    const cats = await getAllCats();
+    console.log('all cats', cats)
     res.json(cats); //always need to response something for all requests
 };
 

@@ -3,6 +3,7 @@ const pool = require('../database/db');
 const promisePool = pool.promise();
 
 const getCat = (catId) => {
+  //TODO find single cat object from wop_cat table and return it
   return catId.find((cat) => cat.id === catId);
 };
 
@@ -18,7 +19,6 @@ const getAllCats = async () => {
 
 
 module.exports = {
-  cats,
   getCat,
   getAllCats
 };
