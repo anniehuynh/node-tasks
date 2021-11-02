@@ -1,10 +1,14 @@
 'use strict';
 // catRoute
 const express = require('express');
-const { 
-    cat_list_get, 
-    cat_get, 
-    cat_post 
+//third party middleware multer import
+const multer = require('multer');
+//set up multer to send file uploaded to upload/ or create if does not exist
+const upload = multer({ dest: './uploads/' }); 
+const {
+    cat_list_get,
+    cat_get,
+    cat_post
 } = require('../controllers/catController.js'); //import from catController
 const router = express.Router(); //Router is the object handle
 
@@ -14,7 +18,9 @@ router.get('/', cat_list_get);
 
 router.get('/:catId', cat_get);
 
-router.post('/', cat_post);
+//upload the file in name = 'cat'(check in view page source html form name)
+router.post('/', upload.single('cat'), cat_post);
+
 
 router.put('/', (req, res) => {
     res.send('With this endpoint you can edit cats.')
@@ -29,5 +35,5 @@ router.delete('/', (req, res) => {
 });
 
 
-  //make router available for other files
+//make router available for other files
 module.exports = router;
