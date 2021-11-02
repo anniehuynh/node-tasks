@@ -9,6 +9,7 @@ app.get('/cat', (req, res) => {
   res.send('From this endpoint you can get cats.')
 });
 
+//usually app.get should be put together
 app.put('/cat', (req, res) => {
   res.send('With this endpoint you can edit cats.')
 });
