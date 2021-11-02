@@ -3,11 +3,11 @@
 
 //calling object destructoring to import only users array in userModel
 const { users, getUser } = require('../models/userModel');
-const { delete } = require('../routes/catRoute');
+
 
 
 const user_list_get = (req,res) => {
-    const newUsers = users.map((user) => {
+    users.forEach((user) => {
         delete user.password;
     });
     res.json(users); //always need to response something for all requests
