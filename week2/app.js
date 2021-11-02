@@ -1,13 +1,18 @@
 'use strict';
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const port = 3000;
 //import router from catRoute.js to app.js, remmeber to define a path to file
 const catRoute = require('./routes/catRoute'); 
 const userRoute = require('./routes/userRoute'); 
 
+//access permission
+app.use(cors());
 
-//6
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
 app.use('/cat', catRoute);
 app.use('/user', userRoute);
 
