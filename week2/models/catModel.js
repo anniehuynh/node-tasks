@@ -18,6 +18,11 @@ const cats = [
   },
 ];
 
+const getCat = (catId) => {
+  return catId.find((cat) => cat.id === catId);
+};
+
 module.exports = {
   cats,
+  getCat,
 };

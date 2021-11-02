@@ -13,7 +13,12 @@ const users = [
     password: 'qwer',
   },
 ];
+const getUser = (userId) => {
+  return users.find((user) => user.id === userId);
+};
+
 
 module.exports = {
   users,
+  getUser,
 };
