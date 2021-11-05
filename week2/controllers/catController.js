@@ -11,8 +11,8 @@ const cat_list_get = async (req,res) => {
     res.json(cats); //always need to response something for all requests
 };
 
-const cat_get = (req, res) => {
-    const cat = getCat(req.params.catId);
+const cat_get = async (req, res) => {
+    const cat = await getCat(req.params.catId);
     res.json({cat});
 };
 

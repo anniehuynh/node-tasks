@@ -2,9 +2,15 @@
 const pool = require('../database/db');
 const promisePool = pool.promise();
 
-const getCat = (catId) => {
+const getCat = async (catId) => {
+  try{
   //TODO find single cat object from wop_cat table and return it
-  return catId.find((cat) => cat.id === catId);
+  const [rows] = await promisePool.execute(`SELECT * FROM wop_cat WHERE cat_id = ?`, [catId]);
+  console.log('get by id result?', rows);
+  return rows[0];//return first element in the list
+  } catch (e){
+    console.error('model get cat by id', e.message);
+  }
 };
 
 const getAllCats = async () => {
