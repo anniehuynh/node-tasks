@@ -103,6 +103,9 @@ dist
 # OS
 .DS_STORE
 
+#IDE
+.idea/
+
 # week2
 week2/.gitignore
 week2/README.md
