@@ -24,7 +24,7 @@ router.get('/:catId', cat_get);
 router.post('/', upload.single('cat'), cat_post);
 
 
-router.put('/:catId', cat_update);
+router.put('/', cat_update);
 
 router.post('/', (req, res) => {
     res.send('With this endpoint you can add cats.')

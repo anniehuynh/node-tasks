@@ -33,11 +33,11 @@ const insertCat = async (cat) => {
   }
 };
 
-const updateCat = async (catId) => {
+const updateCat = async (cat) => {
   try {
-    const [rows] = await promisePool.execute('UPDATE wop_cat SET (name = ?, weight = ?, owner = ?, birthdate = ?, filename = ? WHERE cat_id = ?', [catId]);
+    const [rows] = await promisePool.execute('UPDATE wop_cat SET name = ?, weight = ?, owner = ?, birthdate = ? WHERE cat_id = ?', [cat.name, cat.weight, cat.owner, cat.birthdate, cat.id]);
     console.log('model update cat', rows);
-    return rows.affectedRows;
+    return rows.affectedRows === 1;
   } catch (e) {
     console.error('model update cat', e.message);
   };

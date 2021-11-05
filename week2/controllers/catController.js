@@ -26,13 +26,13 @@ const cat_post = async (req, res) => {
 };
 
 const cat_update = async (req, res) => {
-    await updateCat(req.params.catId);
-    res.send('Cat updated');
+    const updated = await updateCat(req.body);
+    res.send(`Cat updated ${updated}`);
 }
 
 const cat_delete = async (req, res) => {
-    await deleteCat(req.params.catId);
-    res.send ('Cat deleted');
+    const deleted = await deleteCat(req.params.catId);
+    res.send (`Cat deleted: ${deleted}`);
 };
 
 //export
