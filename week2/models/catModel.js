@@ -25,13 +25,14 @@ const getAllCats = async () => {
 
 const insertCat = async (cat) => {
   try {
-    const [rows] = await promisePool.execute('INSERT INTO wop_cat (name, weight, owner, birthdate, filename) VALUES (?, ?, ?, ?, ?)', [cat.name, cat.weight, cat.owner, cat.birthdate, cat.file]);
+    const [rows] = await promisePool.execute('INSERT INTO wop_cat (name, weight, owner, birthdate, filename) VALUES (?, ?, ?, ?, ?)', [cat.name, cat.weight,  cat.owner, cat.birthdate, cat.filename]);
     console.log('model insert cat', rows);
     return rows.insertId;
   } catch (e) {
-    console.error('model insert cat', e.message)
+    console.error('model insert cat', e.message);
   }
 };
+
 
 
 const deleteCat = async (catId) => {
