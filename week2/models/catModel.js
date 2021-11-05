@@ -5,7 +5,6 @@ const promisePool = pool.promise();
 
 const getCat = async (catId) => {
   try {
-    //TODO find single cat object from wop_cat table and return it
     const [rows] = await promisePool.execute(`SELECT * FROM wop_cat WHERE cat_id = ?`, [catId]);
     console.log('get by id result?', rows);
     return rows[0];//return first element in the list
@@ -34,6 +33,15 @@ const insertCat = async (cat) => {
   }
 };
 
+const updateCat = async (catId) => {
+  try {
+    const [rows] = await promisePool.execute('UPDATE wop_cat SET (name = ?, weight = ?, owner = ?, birthdate = ?, filename = ? WHERE cat_id = ?', [catId]);
+    console.log('model update cat', rows);
+    return rows.affectedRows;
+  } catch (e) {
+    console.error('model update cat', e.message);
+  };
+};
 const deleteCat = async (catId) => {
   try {
     const [rows] = await promisePool.execute('DELETE FROM wop_cat WHERE cat_id = ?', [catId]);
@@ -48,5 +56,6 @@ module.exports = {
   getCat,
   getAllCats,
   insertCat,
+  updateCat,
   deleteCat,
 };

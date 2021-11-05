@@ -4,12 +4,13 @@ const express = require('express');
 //third party middleware multer import
 const multer = require('multer');
 //set up multer to send file uploaded to upload/ or create if does not exist
-const upload = multer({ dest: './uploads/' }); 
+const upload = multer({ dest: './uploads/' });
 const {
     cat_list_get,
     cat_get,
     cat_post,
     cat_delete,
+    cat_update,
 } = require('../controllers/catController.js'); //import from catController
 const router = express.Router(); //Router is the object handle
 
@@ -23,9 +24,7 @@ router.get('/:catId', cat_get);
 router.post('/', upload.single('cat'), cat_post);
 
 
-router.put('/', (req, res) => {
-    res.send('With this endpoint you can edit cats.')
-});
+router.put('/:catId', cat_update);
 
 router.post('/', (req, res) => {
     res.send('With this endpoint you can add cats.')

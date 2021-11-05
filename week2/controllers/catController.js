@@ -2,7 +2,7 @@
 // catController
 
 //calling object destructoring to import only cats array in catModel
-const { getAllCats, getCat, insertCat, deleteCat } = require('../models/catModel');
+const { getAllCats, getCat, insertCat, deleteCat, updateCat } = require('../models/catModel');
 const { get } = require('../routes/catRoute');
 
 const cat_list_get = async (req,res) => {
@@ -25,6 +25,11 @@ const cat_post = async (req, res) => {
     res.send(`cat added with id: ${id}`);
 };
 
+const cat_update = async (req, res) => {
+    await updateCat(req.params.catId);
+    res.send('Cat updated');
+}
+
 const cat_delete = async (req, res) => {
     await deleteCat(req.params.catId);
     res.send ('Cat deleted');
@@ -35,5 +40,6 @@ module.exports = {
     cat_list_get, 
     cat_get,
     cat_post,
+    cat_update,
     cat_delete,
 };
