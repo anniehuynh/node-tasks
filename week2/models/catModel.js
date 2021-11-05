@@ -1,14 +1,15 @@
 'use strict';
 const pool = require('../database/db');
+const { promise } = require('../database/db');
 const promisePool = pool.promise();
 
 const getCat = async (catId) => {
-  try{
-  //TODO find single cat object from wop_cat table and return it
-  const [rows] = await promisePool.execute(`SELECT * FROM wop_cat WHERE cat_id = ?`, [catId]);
-  console.log('get by id result?', rows);
-  return rows[0];//return first element in the list
-  } catch (e){
+  try {
+    //TODO find single cat object from wop_cat table and return it
+    const [rows] = await promisePool.execute(`SELECT * FROM wop_cat WHERE cat_id = ?`, [catId]);
+    console.log('get by id result?', rows);
+    return rows[0];//return first element in the list
+  } catch (e) {
     console.error('model get cat by id', e.message);
   }
 };
@@ -23,8 +24,18 @@ const getAllCats = async () => {
   }
 };
 
+const insertCat = async (cat) => {
+  try {
+    const [rows] = await promisePool.execute('INSERT INTO wop_cat (name, weight, owner, birthdate, filename) VALUES (?, ?, ?, ?, ?)', [cat.name, cat.weight, cat.owner, cat.birthdate, cat.filename]);
+    console.log('model insert cat', rows);
+    return rows.insertId;
+  } catch (e) {
+    console.error('model insert cat', e.message)
+  }
+};
 
 module.exports = {
   getCat,
-  getAllCats
+  getAllCats,
+  insertCat,
 };
