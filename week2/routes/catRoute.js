@@ -8,7 +8,8 @@ const upload = multer({ dest: './uploads/' });
 const {
     cat_list_get,
     cat_get,
-    cat_post
+    cat_post,
+    cat_delete,
 } = require('../controllers/catController.js'); //import from catController
 const router = express.Router(); //Router is the object handle
 
@@ -30,9 +31,7 @@ router.post('/', (req, res) => {
     res.send('With this endpoint you can add cats.')
 });
 
-router.delete('/', (req, res) => {
-    res.send('With this endpoint you can delete cats.')
-});
+router.delete('/:catId', cat_delete);
 
 
 //make router available for other files
