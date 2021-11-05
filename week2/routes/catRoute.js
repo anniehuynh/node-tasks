@@ -14,24 +14,14 @@ const {
 } = require('../controllers/catController.js'); //import from catController
 const router = express.Router(); //Router is the object handle
 
-//instead of /cat, just / because it is already replaced by the router
-//7
-router.get('/', cat_list_get);
+router.route('/')
+    .get(cat_list_get)
+    .post(upload.single('cat'), cat_post)
+    .put(cat_update);
 
-router.get('/:catId', cat_get);
-
-//upload the file in name = 'cat'(check in view page source html form name)
-router.post('/', upload.single('cat'), cat_post);
-
-
-router.put('/', cat_update);
-
-router.post('/', (req, res) => {
-    res.send('With this endpoint you can add cats.')
-});
-
-router.delete('/:catId', cat_delete);
-
+router.route('/:catId')
+    .get(cat_get)
+    .delete(cat_delete);
 
 //make router available for other files
 module.exports = router;

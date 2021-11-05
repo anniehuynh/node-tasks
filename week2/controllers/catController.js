@@ -27,6 +27,7 @@ const cat_post = async (req, res) => {
 
 const cat_update = async (req, res) => {
     const updated = await updateCat(req.body);
+    console.log('cat_update',req.body);
     res.send(`Cat updated ${updated}`);
 }
 
