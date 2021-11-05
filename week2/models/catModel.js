@@ -25,7 +25,7 @@ const getAllCats = async () => {
 
 const insertCat = async (cat) => {
   try {
-    const [rows] = await promisePool.execute('INSERT INTO wop_cat (name, weight, owner, birthdate, filename) VALUES (?, ?, ?, ?, ?)', [cat.name, cat.weight, cat.owner, cat.birthdate, cat.filename]);
+    const [rows] = await promisePool.execute('INSERT INTO wop_cat (name, weight, owner, birthdate, filename) VALUES (?, ?, ?, ?, ?)', [cat.name, cat.weight, cat.owner, cat.birthdate, cat.file]);
     console.log('model insert cat', rows);
     return rows.insertId;
   } catch (e) {
@@ -46,6 +46,7 @@ const deleteCat = async (catId) => {
 
 const updateCat = async (cat) => {
   try {
+    console.log('start update');
     const [rows] = await promisePool.execute('UPDATE wop_cat SET name = ?, weight = ?, owner = ?, birthdate = ? WHERE cat_id = ?', [cat.name, cat.weight, cat.owner, cat.birthdate, cat.id]);
     console.log('model update cat', rows);
     return rows.affectedRows === 1;

@@ -21,19 +21,19 @@ const cat_post = async (req, res) => {
     console.log('filename', req.file);
     const cat = req.body;
     cat.filename = req.file.filename;
-    const id = await insertCat(cat);
-    res.send(`cat added with id: ${id}`);
+    const id = await insertCat(cat); 
+    res.json({message: `cat added with id: ${id}`});
 };
 
 const cat_update = async (req, res) => {
     const updated = await updateCat(req.body);
-    console.log('cat_update',req.body);
-    res.send(`Cat updated ${updated}`);
+    //console.log('cat_update',req.body);
+    res.json({message: `Cat updated ${updated}`});
 }
 
 const cat_delete = async (req, res) => {
     const deleted = await deleteCat(req.params.catId);
-    res.send (`Cat deleted: ${deleted}`);
+    res.json ({message: `Cat deleted: ${deleted}`});
 };
 
 //export
