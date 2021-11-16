@@ -1,0 +1,17 @@
+GET http://localhost:3000/user/1
+
+###
+GET http://localhost:3000/cat
+
+###
+PUT http://localhost:3000/cat
+Content-Type: application/application/json
+
+{
+    "cat_id": 1,
+    "name" : "test",
+    "weight": 5,
+    "onwer" : 1,
+    "birthdate": "2010-08-03",
+    "filename": "no name yet"
+}
