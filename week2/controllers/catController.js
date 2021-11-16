@@ -47,6 +47,7 @@ const cat_post = async (req, res, next) => {
         }
     const cat = req.body;
     cat.filename = req.file.filename;
+    cat.owner = req.user.user_id;
     const id = await insertCat(cat, next);
     if(cat){
     res.json({ message: `cat added with id: ${id}`, cat_id: id });
