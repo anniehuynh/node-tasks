@@ -23,8 +23,11 @@ const user_list_get = async (req, res) => {
 
 const user_get = async (req, res) => {
   const user = await getUser(req.params.userId);
-  delete user.password; // password property from user's data before sending.
-  res.json({ user });
+  if (user) {
+    delete user.password; // password property from user's data before sending.
+    res.json({ user });
+    return;
+  }
 };
 
 const user_post = async (req, res, next) => {
@@ -61,11 +64,11 @@ const user_delete = async (req, res) => {
 };
 
 const tokenCheck = (req, res, next) => {
-	if (!req.user) {
-		next(new Error('token not valid'));
-	} else {
-		res.json({ user: req.user });
-	}
+  if (!req.user) {
+    next(new Error("token not valid"));
+  } else {
+    res.json({ user: req.user });
+  }
 };
 //export
 module.exports = {

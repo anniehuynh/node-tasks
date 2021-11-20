@@ -1,7 +1,6 @@
 'use strict';
 
 const pool = require('../database/db');
-const { user_post } = require('../controllers/userController');
 const promisePool = pool.promise();
 
 const getUserLogin = async (params) => {
@@ -28,7 +27,7 @@ const getUser = async (userId) => {
 
 const getAllUsers = async () => {
   try {
-    const [rows] = await promisePool.query('SELECT * FROM wop_user');
+    const [rows] = await promisePool.query('SELECT wop_user.name, email, wop_cat.name AS owned_cat FROM wop_cat INNER JOIN wop_user ON user_id = wop_cat.cat_id');
     return rows;
   } catch (e) {
     console.error('error', e.message);
@@ -57,7 +56,6 @@ const deleteUser = async (userId) => {
 
 const updateUser = async (user) => {
   try {
-    console.log('start updating user');
     const [rows] = await promisePool.execute('UPDATE wop_user SET name = ?, email = ?, password = ?, role = ? WHERE user_id = ?', [user.name, user.email, user.password, user.role, user.user_id]);
     console.log('model update user', rows);
     return rows.affectedRows === 1;
