@@ -9,6 +9,7 @@ const {
     user_post,
     user_delete,
     user_update,
+    tokenCheck,
 } = require('../controllers/userController.js'); //import from userController
 const router = express.Router(); //Router is the object handle
 //instead of /user, just / because it is already replaced by the router
@@ -21,7 +22,14 @@ router.route('/')
         body('passwd').matches('(?=.*[A-Z]).{8,}'),
         user_post
         )
-    .put(user_update);
+    .put(
+        body('name').isLength({ min: 3 }),
+        body('email').isEmail(),
+        body('passwd').matches('(?=.*[A-Z]).{8,}'),
+        user_update);
+
+router.get('/token', tokenCheck);
+
 
 router.route('/:userId')
     .get(user_get)
