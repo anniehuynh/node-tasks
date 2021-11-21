@@ -13,7 +13,7 @@ const {
 } = require('../controllers/userController.js'); //import from userController
 const router = express.Router(); //Router is the object handle
 //instead of /user, just / because it is already replaced by the router
-//7
+
 router.route('/')
     .get(user_list_get)
     .post(
