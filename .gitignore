@@ -111,9 +111,11 @@ week2/.gitignore
 week2/README.md
 
 # ignore content of uploads folder
-uploads/*
+*/uploads/*
+*/thumbnails/*
 # except one (empty) file to have the folder in version control
 !*/uploads/.gitkeep
+!*/thumbnails/.gitkeep
 
 # TernJS port file
 .tern-port
