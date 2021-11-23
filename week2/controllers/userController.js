@@ -63,13 +63,13 @@ const user_delete = async (req, res) => {
   res.json({ message: `User deleted: ${deleted}` });
 };
 
-const tokenCheck = (req, res, next) => {
+const checkToken = (req, res, next) => {
   if (!req.user) {
-    next(new Error("token not valid"));
+    next(new Error('token not valid'));
   } else {
     res.json({ user: req.user });
   }
-};
+ };
 //export
 module.exports = {
   user_list_get,
@@ -77,5 +77,5 @@ module.exports = {
   user_post,
   user_update,
   user_delete,
-  tokenCheck,
+  checkToken,
 };
