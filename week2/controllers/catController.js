@@ -1,26 +1,25 @@
-"use strict";
+'use strict';
+const { validationResult } = require('express-validator');
 // catController
-
-//calling object destructoring to import only cats array in catModel
 const {
   getAllCats,
   getCat,
   insertCat,
   deleteCat,
   updateCat,
-} = require("../models/catModel");
-const { get } = require("../routes/catRoute");
-const { httpError } = require("../utils/errors");
-const { validationResult } = require("express-validator");
+} = require('../models/catModel');
+const { httpError } = require('../utils/errors');
+const { getCoordinates } = require('../utils/imageMeta');
+const { makeThumbnail } = require('../utils/resize');
 
-const cat_list_get = async (req, res, next) => {
+const cat_list_get = async (req, res) => {
   const cats = await getAllCats();
-  console.log("all cats", cats);
+  console.log('all cats', cats);
   if (cats.length > 0) {
     res.json(cats);
     return;
   }
-  const err = httpError("Cat not found", 404);
+  const err = httpError('Cats not found', 404);
   next(err);
 };
 
@@ -30,63 +29,81 @@ const cat_get = async (req, res, next) => {
     res.json(cat);
     return;
   }
-  const err = httpError("Cat not found", 404);
-  next(cat);
+  const err = httpError('Cat not found', 404);
+  next(err);
 };
 
 const cat_post = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.error("cat post validation", errors.array());
-    const err = httpError("data not valid", 400);
+    console.error('cat post validation', errors.array());
+    const err = httpError('data not valid', 400);
     next(err);
     return;
   }
 
-  console.log("add cat data", req.body);
-  console.log("filename", req.file);
+  console.log('add cat data', req.body, req.user);
+  console.log('filename', req.file);
   if (!req.file) {
-    const err = httpError("Invalid file", 400);
+    const err = httpError('Invalid file', 400);
     next(err);
     return;
   }
 
-  const cat = req.body;
-  cat.filename = req.file.filename;
-  cat.owner = req.user.user_id;
-  const id = await insertCat(cat, next);
-  if (cat) {
-    res.json({ message: `cat added with id: ${id}`, cat_id: id });
+  try {
+    const coords = await getCoordinates(req.file.path);
+    console.log('coords', coords);
+    req.body.coords = JSON.stringify(coords);
+  } catch (e) {
+    req.body.coords = '[0,0]';
+  }
+
+  try {
+    const thumb = await makeThumbnail(req.file.path, req.file.filename);
+    const cat = req.body;
+    cat.filename = req.file.filename;
+    cat.owner = req.user.user_id;
+    const id = await insertCat(cat);
+    if (thumb) {
+      res.json({ message: `Cat created with id: ${id}`, cat_id: id });
+    }
+  } catch (e) {
+    console.log('cat_post error', e.message);
+    const err = httpError('Error uploading cat', 400);
+    next(err);
     return;
   }
-  const err = httpError("Bad request", 400);
-  next(cat);
-};
-
-const cat_update = async (req, res) => {
-  req.body.id = req.params.catId;
-  req.body.owner = req.body.owner || req.user.user_id;
-  req.body.role = req.user.role;
-  const updated = await updateCat(req.body);
-  res.json({ message: `Cat updated ${updated}`, cat_id: updated });
- 
 };
 
 const cat_delete = async (req, res) => {
-  const deleted = await deleteCat(req.params.catId, req.user.user_id, req.user.role);
-  if (cat) {
-    res.json({ message: `Cat deleted: ${deleted}`, cat_id: deleted });
-    return;
-  }
-  const err = httpError("Bad request", 400);
-  next(cat);
+  const deleted = await deleteCat(
+    req.params.catId,
+    req.user.user_id,
+    req.user.role
+  );
+  res.json({ message: `Cat deleted: ${deleted}` });
 };
 
-//export
+const cat_update = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.error('cat_put validation', errors.array());
+    const err = httpError('data not valid', 400);
+    next(err);
+    return;
+  }
+  req.body.id = req.params.catId;
+  req.body.owner = req.body.owner || req.user.user_id;
+  req.body.role = req.user.role;
+  console.log('cat_update', req.body);
+  const updated = await updateCat(req.body);
+  res.json({ message: `Cat updated: ${updated}` });
+};
+
 module.exports = {
   cat_list_get,
   cat_get,
   cat_post,
-  cat_update,
   cat_delete,
+  cat_update,
 };
