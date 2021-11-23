@@ -1,5 +1,6 @@
 'use strict';
 const pool = require('../database/db');
+const { param } = require('../routes/userRoute');
 const { httpError } = require('../utils/errors');
 const promisePool = pool.promise();
 
@@ -34,6 +35,7 @@ const getAllCats = async (next) => {
 };
 
 const insertCat = async (cat,next) => {
+  if(cat.role === 0)
   try {
     const [rows] = await promisePool.execute('INSERT INTO wop_cat (name, weight, owner, birthdate, filename) VALUES (?, ?, ?, ?, ?)', 
     [cat.name, cat.weight, cat.owner, cat.birthdate, cat.filename]);
@@ -44,31 +46,34 @@ const insertCat = async (cat,next) => {
   }
 };
 
-const deleteCat = async (id, user) => {
-  if (user.role === 0) {
+const deleteCat = async (id, user_id, role) => {
+  let sql = 'DELETE wop_cat WHERE cat_id = ? AND owner = ?';
+  let params = [cat.id, user_id];
+  if (role === 0){
+    sql = 'DELETE FROM wop_cat WHERE cat_id = ?';
+    params =[catId]
+  } 
     try {
-      const [rows] = await promisePool.execute('DELETE FROM wop_cat WHERE cat_id = ?', [id]);
-      return rows;
+      const [rows] = await promisePool.execute(sql, params);
+      return rows.affectedRows === 1;
     } catch (e) {
       console.error('error', e.message);
     }
-  } else {
-    try {
-      const [rows] = await promisePool.execute('DELETE FROM wop_cat WHERE cat_id = ? AND owner = ?', [id, user.user_id]);
-      return rows;
-    } catch (e) {
-      console.error('error', e.message);
-    }
-  }
+  
 };
 
 const updateCat = async (id, cat, user) => {
-  let date = cat.birthdate.slice(0, 10);
-  console.log("date", date)
+  let sql = 'UPDATE wop_cat SET name = ?, weight = ?, birthdate = ? WHERE cat_id = ? AND owner = ?';
+  let params = [cat.name, cat.weight, cat.birthdate, cat.id, cat.owner];
+  if (cat.role === 0) {
+    sql = 'UPDATE wop_cat SET name = ?, weight = ?, owner = ?, birthdate = ? WHERE cat_id = ?';
+    params = [cat.name, cat.weight, cat.owner, cat.birthdate, cat.id];
+  }
+  
   if (user.role === 0) {
     try {    
-      const [rows] = await promisePool.execute('UPDATE wop_cat SET name = ?, weight = ?, owner = ?, birthdate = ? WHERE cat_id = ?', [cat.name, cat.weight, cat.owner, date, id]);
-      return rows;
+      const [rows] = await promisePool.execute(sql, params);
+      return rows.affectedRows === 1;
     } catch (e) {
       console.error('error', e.message);
     }

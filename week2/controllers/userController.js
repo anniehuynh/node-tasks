@@ -15,10 +15,13 @@ const { validationResult } = require("express-validator");
 
 const user_list_get = async (req, res) => {
   const users = await getAllUsers();
-  users.forEach((user) => {
-    delete user.password;
-  });
-  res.json(users);
+  console.log ( 'all user', users);
+  if(users.length > 0) {
+    res,json(users)
+    return;
+  }
+  const err = httpError("User not found", 404);
+  next(err);
 };
 
 const user_get = async (req, res) => {

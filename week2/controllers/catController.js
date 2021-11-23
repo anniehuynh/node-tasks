@@ -64,17 +64,16 @@ const cat_post = async (req, res, next) => {
 };
 
 const cat_update = async (req, res) => {
+  req.body.id = req.params.catId;
+  req.body.owner = req.body.owner || req.user.user_id;
+  req.body.role = req.user.role;
   const updated = await updateCat(req.body);
-  if (cat) {
-    res.json({ message: `Cat updated ${updated}`, cat_id: updated });
-    return;
-  }
-  const err = httpError("Bad request", 400);
-  next(cat);
+  res.json({ message: `Cat updated ${updated}`, cat_id: updated });
+ 
 };
 
 const cat_delete = async (req, res) => {
-  const deleted = await deleteCat(req.params.catId);
+  const deleted = await deleteCat(req.params.catId, req.user.user_id, req.user.role);
   if (cat) {
     res.json({ message: `Cat deleted: ${deleted}`, cat_id: deleted });
     return;

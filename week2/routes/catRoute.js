@@ -33,21 +33,20 @@ router
     body("name").isLength({ min: 1 }),
     body("birthdate").isDate(),
     body("weight").isNumeric().isLength({ min: 1 }),
-    body("owner").isNumeric(),
     cat_post
   )
-  .put(
-    body("name").isLength({ min: 1 }),
-    body("birthdate").isDate(),
-    body("weight").isNumeric().isLength({ min: 1 }),
-    body("owner").isNumeric(),
-    cat_update
-  );
+ 
 
 router.route("/:catId")
     .get(cat_get)
     .put(cat_update)
-    .delete(cat_delete);
+    .delete(cat_delete)
+    .put(
+      body("name").isLength({ min: 1 }),
+      body("birthdate").isDate(),
+      body("weight").isNumeric().isLength({ min: 1 }),
+      cat_update
+    );
 
 //make router available for other files
 module.exports = router;
