@@ -13,6 +13,7 @@ const {
 } = require('../controllers/userController.js'); //import from userController
 const router = express.Router(); //Router is the object handle
 //instead of /user, just / because it is already replaced by the router
+router.get('/token', checkToken);
 
 router.route('/')
     .get(user_list_get)
@@ -35,6 +36,5 @@ router.route('/:userId')
     .get(user_get)
     .delete(user_delete);
 
-router.get('/token', checkToken);
 //make router available for other files
 module.exports = router;
