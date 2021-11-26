@@ -1,5 +1,6 @@
 "use strict";
 const passport = require("passport");
+const bcrypt = require('bcryptjs');
 const Strategy = require("passport-local").Strategy;
 const passportJWT = require("passport-jwt");
 const JWTStrategy = passportJWT.Strategy;
@@ -16,7 +17,7 @@ passport.use(
       if (!user) {
         return done(null, false, { message: "Incorrect email/password." });
       }
-      if (user.password !== password) {
+      if (!await bcrypt.compare(password, user.password)) {
         return done(null, false, { message: "Incorrect email/password." });
       }
       delete user.password;
