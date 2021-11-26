@@ -119,4 +119,8 @@ uploads/*
 .tern-port
 
 .vscode/
+gnore tls certificate and private key
+week2/certrequest.csr
+week2/ssl-cert.pem
+week2/ssl-key.pem
 
