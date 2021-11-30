@@ -16,5 +16,5 @@ module.exports = (app, port) => {
           res.redirect(301, `https://${req.headers.host}${proxypath}${req.url}`);
         }
       });
-      
+      app.listen(port);
 };
