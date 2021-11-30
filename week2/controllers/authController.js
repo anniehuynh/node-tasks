@@ -3,8 +3,9 @@ const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const { insertUser } = require("../models/userModel");
-const { httpError } = require("../utils/errors");
+
 const bcrypt = require("bcryptjs");
+const { httpError } = require("../utils/errors");
 
 const login = (req, res, next) => {
   // TODO: add passport authenticate
