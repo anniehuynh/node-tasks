@@ -112,11 +112,17 @@ week2/README.md
 
 # ignore content of uploads folder
 uploads/*
+thumbnails/*
 # except one (empty) file to have the folder in version control
 !*/uploads/.gitkeep
+!*/thumbnails/.gitkeep
 
 # TernJS port file
 .tern-port
 
 .vscode/
+#Ignore tls certificate and private key
+week2/certrequest.csr
+week2/ssl-cert.pem
+week2/ssl-key.pem
 
